@@ -4,5 +4,6 @@ namespace LexiQ_api.Models
 {
     public class UserModel : IdentityUser
     {
+
     }
 }
