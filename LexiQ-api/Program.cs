@@ -1,5 +1,6 @@
 using LexiQ_api.Data;
 using LexiQ_api.Models;
+using LexiQ_api.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
@@ -40,6 +41,8 @@ builder.Services.AddIdentityCore<UserModel>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddApiEndpoints();
 
+builder.Services.AddScoped<JwtService>();   
+
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -57,6 +60,7 @@ app.UseHttpsRedirection();
 
 app.UseDeveloperExceptionPage();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
