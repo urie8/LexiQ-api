@@ -14,6 +14,15 @@ using System.Text;
 var builder = WebApplication.CreateBuilder(args);
 
 
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.AllowAnyHeader()
+        .AllowAnyMethod()
+        .AllowAnyOrigin();
+    });
+});
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -41,7 +50,9 @@ builder.Services.AddIdentityCore<UserModel>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddApiEndpoints();
 
-builder.Services.AddScoped<JwtService>();   
+builder.Services.AddScoped<JwtService>();
+
+//builder.WebHost.UseUrls("http://*:5048");
 
 
 builder.Services.AddEndpointsApiExplorer();
@@ -56,9 +67,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 app.UseDeveloperExceptionPage();
+
+app.UseCors();
 
 app.UseAuthentication();
 app.UseAuthorization();
