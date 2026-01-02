@@ -33,8 +33,23 @@ namespace LexiQ_api.Controllers
                 UserName = registerRequest.UserName,
             };
 
-            var result = await _userManager.CreateAsync(newUser, registerRequest.Password);
-            return Ok(result);
+            try
+            {
+                var result = await _userManager.CreateAsync(newUser, registerRequest.Password);
+
+                if (result.Succeeded)
+                {
+                    return Ok(result);
+                }
+
+                return BadRequest(result);
+
+            }
+
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPost("login")]
